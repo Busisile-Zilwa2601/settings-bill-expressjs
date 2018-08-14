@@ -15,11 +15,11 @@ describe("The bill-Settings function", function(){
                                             totalSettingsAmount : 0.00,
                                             warningLevelAfterSetting : 1.50, 
                                             criticalLevelAfterSetting: 3.00, 
-                                            color: '',
+                                            color: 'original',
                                           });
   });
 
-  it('It should not add calls nor sms when the settings are as follows: \'Call Cost\' = 1.20, \'SMS Cost\' = 0.50 and both Warning and Crirtical Level are empty string:  ',function(){
+  it('It should not add calls nor sms when the settings are as follows: \'Call Cost\' = 1.20, \'SMS Cost\' = 0.50 and both Warning and Crirtical Level are empty strings:  ',function(){
     const settingBill = bill();
     settingBill.callSet('1.20');
     settingBill.smsSet('0.5');
@@ -34,11 +34,11 @@ describe("The bill-Settings function", function(){
                                             totalSettingsAmount : 0.00,
                                             warningLevelAfterSetting : 0.00, 
                                             criticalLevelAfterSetting: 0.00, 
-                                            color: '',
+                                            color: 'original'
                                           });  
   });
   
-  it("the call amount set to R2.00 entered 1 time(s), sms set to R1.50 entered 1 time(s). It should return total bill R3.50 . The warning or critical value are not reached, and color is set to empty string.", function(){
+  it("the call amount set to R2.00 entered 1 time(s), sms set to R1.50 entered 1 time(s). It should return total bill R3.50 . The warning or critical value are not reached, and color is set to original.", function(){
     const settingBill = bill();
     settingBill.callSet('2');
     settingBill.smsSet('1.5');
@@ -53,7 +53,7 @@ describe("The bill-Settings function", function(){
                                             totalSettingsAmount : 3.50,
                                             warningLevelAfterSetting : 4.50, 
                                             criticalLevelAfterSetting: 6.50, 
-                                            color: '',
+                                            color: 'original',
    });
  });
   it("the call amount set to R2.00 entered 2 time(s), sms set to R1.00 entered 1 time(s). It should return total bill R5.00. The warning value is reached, and color is set to warning", function(){
@@ -76,7 +76,7 @@ describe("The bill-Settings function", function(){
     });
   });
   
-  it("the call amount set to empty string and added 3 time(s), sms set to R1.50 and added 5 time(s). It should return total bill R6.50. The critical value(s) are reached, it should return true", function(){
+  it("the call amount set to empty string and added 3 time(s), sms set to R1.50 and added 5 time(s). It should return total bill R6.50. The critical value(s) is reached, it should return color => danger", function(){
        const settingBill = bill();
        settingBill.callSet('');
        settingBill.smsSet('1.50');
@@ -100,7 +100,7 @@ describe("The bill-Settings function", function(){
                                                color: 'danger',
                                               });
   
-  });
+});
 
   it("It should reset all the setting values to initial values", function(){
     const settingBill = bill();
@@ -146,4 +146,4 @@ describe("The bill-Settings function", function(){
 //   it("It should return the actions on SMS Total", function(){
     
 //   });  
-// });
+//});

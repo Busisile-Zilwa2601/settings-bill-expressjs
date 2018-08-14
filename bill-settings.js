@@ -160,7 +160,7 @@ module.exports = function(){
     callTotal = 0;
     smsTotal = 0; 
     totalSettingsAmount = 0;
-    color = 'original';
+    color = '';
     recordList = [];
   }
   //functions to be used when this module is imported
