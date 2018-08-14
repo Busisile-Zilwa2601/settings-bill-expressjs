@@ -7,7 +7,9 @@ let billSettings = require('./bill-settings');
 let caller = billSettings();
 let app = express();
 app.use(express.static('public'));
-var hbs = exphbs.create({defaultLayout: 'main', helpers : 'helpers'});
+var hbs = exphbs.create({defaultLayout: 'main', helpers : {'changeDate':function(){
+																return Moment(this.timestamp).fromNow();}
+															}});
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 
@@ -44,18 +46,13 @@ app.post('/action', function(req, res){
 });
 //GET route to show timestamp on total when ADD button is clicked
 app.get('/actions', function(req, res){
-	 res.render('actions', {actions: caller.actions(),
-								helpers: {'changeDate':function(){
-									return Moment(this.timestamp).fromNow();}
-								}});
+	 res.render('actions', {actions: caller.actions()
+								 });
 });
 //GET route to show timestamp when call or sms radio-button is selected
 app.get('/actions/:type',function(req, res){
 	let billType = req.params.type;
-	res.render('actions', {actions: caller.eachAction(billType),
-		helpers: {'changeDate':function(){
-			return Moment(this.timestamp).fromNow();}
-		}
+	res.render('actions', {actions: caller.eachAction(billType)
 	});
 });
 
