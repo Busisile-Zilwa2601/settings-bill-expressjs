@@ -7,21 +7,28 @@ let billSettings = require('./bill-settings');
 let caller = billSettings();
 let app = express();
 app.use(express.static('public'));
-var hbs = exphbs.create({defaultLayout: 'main', helpers : {'changeDate':function(){
-																return Moment(this.timestamp).fromNow();}
-															}});
+var hbs = exphbs.create({
+	defaultLayout: 'main',
+	helpers: {
+		'changeDate': function () {
+			return Moment(this.timestamp).fromNow();
+		}
+	}
+});
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 
-app.use(bodyParser.urlencoded({extended : false}));
+app.use(bodyParser.urlencoded({
+	extended: false
+}));
 app.use(bodyParser.json());
 
 //route to home
-app.get('/', function(req, res){
+app.get('/', function (req, res) {
 	res.render('home', caller.result());
 });
 
-app.post('/settings', function(req, res){
+app.post('/settings', function (req, res) {
 	let callCostSetting = req.body.callCost;
 	let smsCostSetting = req.body.smsCost;
 	let warningLevelSetting = req.body.warningLevel;
@@ -34,31 +41,33 @@ app.post('/settings', function(req, res){
 	res.redirect('/');
 });
 //rest the inputs
-app.post('/reset', function(req, res){
+app.post('/reset', function (req, res) {
 	//console.log(caller.clear());
 	caller.clear();
 	res.redirect('/');
 });
-app.post('/action', function(req, res){
+app.post('/action', function (req, res) {
 	let billType = req.body.billItemType;
 	caller.calculateEntry(billType);
- 	res.redirect('/');
+	res.redirect('/');
 });
 //GET route to show timestamp on total when ADD button is clicked
-app.get('/actions', function(req, res){
-	 res.render('actions', {actions: caller.actions()
-								 });
+app.get('/actions', function (req, res) {
+	res.render('actions', {
+		actions: caller.actions()
+	});
 });
 //GET route to show timestamp when call or sms radio-button is selected
-app.get('/actions/:type',function(req, res){
+app.get('/actions/:type', function (req, res) {
 	let billType = req.params.type;
-	res.render('actions', {actions: caller.eachAction(billType)
+	res.render('actions', {
+		actions: caller.eachAction(billType)
 	});
 });
 
 //add the PORT
 let PORT = process.env.PORT || 3007;
 
-app.listen(PORT, function(){
+app.listen(PORT, function () {
 	console.log('App starting on port', PORT);
 });
